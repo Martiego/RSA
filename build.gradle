@@ -8,11 +8,19 @@ repositories {
 }
 
 dependencies {
+    testImplementation('org.junit.jupiter:junit-jupiter:5.5.2')
 }
 
 javafx {
     version = "13"
     modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 mainClassName = 'pl.wtorkowy.App'
