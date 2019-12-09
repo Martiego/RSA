@@ -11,9 +11,10 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/MainScreen.fxml"));
         StackPane stackPane = loader.load();
-        Scene scene = new Scene(stackPane, 800, 500);
+        Scene scene = new Scene(stackPane, 1000, 500);
 
         primaryStage.setResizable(false);
+        primaryStage.setScene(scene);
         primaryStage.setTitle("RSA");
         primaryStage.show();
     }

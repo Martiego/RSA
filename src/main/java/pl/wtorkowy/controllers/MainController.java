@@ -14,8 +14,8 @@ public class MainController {
 
     @FXML
     public void initialize() throws IOException {
-//        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/crypto.fxml"));
-//        Pane pane = loader.load();
-//        mainStackPane.getChildren().add(pane);
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/crypto.fxml"));
+        Pane pane = loader.load();
+        mainStackPane.getChildren().add(pane);
     }
 }
