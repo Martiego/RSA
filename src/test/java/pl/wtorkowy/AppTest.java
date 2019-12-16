@@ -12,7 +12,7 @@ public class AppTest {
         RSA rsa = new RSA(new BigInteger("3"), new BigInteger("5"));
         Assertions.assertEquals(rsa.getN().toString(), "15");
         Assertions.assertEquals(rsa.getEulerFunction().toString(), "8");
-        Assertions.assertEquals(rsa.getE().toString(), "3");
+        Assertions.assertEquals(rsa.getE(), true);
         Assertions.assertEquals(rsa.getD().toString(), "3");
 
         BigInteger m = new BigInteger("4");
