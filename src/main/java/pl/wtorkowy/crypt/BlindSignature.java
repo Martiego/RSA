@@ -30,4 +30,12 @@ public class BlindSignature {
     public BigInteger unblindSign(BigInteger c) {
         return c.modPow(rsa.getE(), n);
     }
+
+    public BigInteger getK() {
+        return k;
+    }
+
+    public BigInteger getN() {
+        return n;
+    }
 }

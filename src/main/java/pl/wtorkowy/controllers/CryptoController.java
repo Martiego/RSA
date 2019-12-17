@@ -8,14 +8,14 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import pl.wtorkowy.cast.ToTab;
+import pl.wtorkowy.crypt.BlindSignature;
+import pl.wtorkowy.crypt.Generator;
 import pl.wtorkowy.crypt.RSA;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.io.*;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Scanner;
 
 public class CryptoController {
     @FXML
@@ -43,28 +43,34 @@ public class CryptoController {
     @FXML
     private Label publicKey;
     @FXML
-    private Label publicKeyFile;
+    private TextField nameFile;
+
     @FXML
-    private Label privateKeyFile;
+    private Label pFile;
+    @FXML
+    private Label qFile;
+    @FXML
+    private Label eFile;
+    @FXML
+    private Label dFile;
+    @FXML
+    private Label kFile;
     @FXML
     private Label nFile;
-    @FXML
-    private Label mFile;
-    @FXML
-    private TextField nameFile;
 
     @FXML
     private ProgressBar progressBar;
     private double progress = 0;
     private double tmpProgress;
     private RSA rsa;
+    private BlindSignature blindSignature;
+    private BigInteger pRSA;
+    private BigInteger qRSA;
 
     @FXML
     private File file;
     @FXML
     private Stage stage;
-    @FXML
-    private int[] cipherTextTab;
 
     @FXML
     public void openFile() {
@@ -104,7 +110,6 @@ public class CryptoController {
     @FXML
     public void decrypt() {
         String s = "";
-        String d;
         String tmp = cipherText.getText();
         int j = 0;
 
@@ -118,21 +123,6 @@ public class CryptoController {
         cipherText.setText(s);
     }
 
-    @FXML
-    public void encryptFile() {
-        if (file != null) {
-            Thread thread = new Thread(new EncryptFile());
-            thread.start();
-        }
-    }
-
-    @FXML
-    public void decryptFile() {
-        if(file != null) {
-            Thread thread = new Thread(new DecryptFile());
-            thread.start();
-        }
-    }
 
     @FXML
     public void copy() {
@@ -141,18 +131,88 @@ public class CryptoController {
 
     @FXML
     public void generate() {
+        int t = Integer.parseInt(times.getText());
+        while(t%8 != 0)
+            t--;
+
+        pRSA = Generator.generatePrimeNumber(t);
+        qRSA = Generator.generatePrimeNumber(t-1);
+
+        rsa = new RSA(pRSA, qRSA);
+
+        pFile.setText(pRSA.toString());
+        qFile.setText(qRSA.toString());
+        eFile.setText(rsa.getE().toString());
+        dFile.setText(rsa.getD().toString());
+        kFile.setText("{k}");
+        nFile.setText(rsa.getN().toString());
+    }
+
+    @FXML
+    public void blindFile() {
+        blindSignature = new BlindSignature(pRSA, qRSA);
+        kFile.setText(blindSignature.getK().toString());
+
+        if(file != null) {
+            Thread thread = new Thread(new BlindFile());
+            thread.start();
+        }
+    }
+
+    @FXML
+    public void signFile() {
 
     }
 
-    public class EncryptFile implements Runnable {
+    @FXML
+    public void checkSign() {
+
+    }
+
+    public class BlindFile implements Runnable {
 
         @Override
         public void run() {
 
+            try {
+                progressBar.setProgress(progress);
+                FileInputStream fileInputStream = new FileInputStream(file);
+
+                int tmp = blindSignature.getN().bitCount();
+
+                while (tmp%8 != 0)
+                    tmp--;
+
+                tmp /= 8;
+
+                String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
+
+                FileWriter newFile = new FileWriter(name);
+
+                long fileLen = file.length();
+                long juzChybaPietnastaZmiennaTmp = fileLen%tmp;
+
+                tmpProgress = 1.0/(fileLen/tmp);
+
+                int[] tabWithBytes = new int[tmp];
+
+                for (int i = 0; i < fileLen/tmp; i++) {
+                    progressBar.setProgress(progress += tmpProgress);
+                    for (int j = 0; j < tmp; j++) {
+                        tabWithBytes[j] = fileInputStream.read();
+                    }
+                    newFile.write(blindSignature.blindMessage(ToTab.generateBigInteger(tabWithBytes)).toString());
+                }
+                //TODO
+                // Trzeba zająć się resztą bitów, tych pozostałych
+                // Tam to jest ta następna zmienna
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
-    public class DecryptFile implements Runnable {
+    public class SignFile implements Runnable {
 
         @Override
         public void run() {

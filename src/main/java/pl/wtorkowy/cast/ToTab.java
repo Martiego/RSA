@@ -1,5 +1,6 @@
 package pl.wtorkowy.cast;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +137,18 @@ public class ToTab {
 
         for (int i = 0; i < tab.length; i++) {
             result[tab.length - 1 - i] = tab[i];
+        }
+
+        return result;
+    }
+
+    public static BigInteger generateBigInteger(int[] tab) {
+        BigInteger result = new BigInteger(Integer.toString(tab[0]));
+        BigInteger byteBig = new BigInteger("256");
+
+
+        for (int i = 0; i < tab.length - 1; i++) {
+            result = result.multiply(byteBig).add(new BigInteger(Integer.toString(tab[i+1])));
         }
 
         return result;

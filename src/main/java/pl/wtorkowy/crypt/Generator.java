@@ -11,9 +11,9 @@ public class Generator {
                                         "21",  "2", "23", "24", "25", "26",  "7", "28",  "9", "30",
                                         "31", "32", "33", "34", "35", "36", "41", "27", "39", "37",
                                         "40", "42", "43",  "8", "45", "46", "47", "48", "49",  "5"};
-    private static String[] primeNumbers = {  "1", "21",  "3",  "7", "51", "13",  "9",  "5", "47",
-                                             "15", "31", "33", "47", "49", "51", "23", "99", "16",
-                                             "27", "61", "41", "43", "29", "25", "17", "71", "73"};
+    private static String[] primeNumbers = { "1111", "2321", "3421", "4237", "2451", "2313", "2319", "5225", "4327",
+                                             "1325", "3321", "3311", "1247", "4129", "2351", "4323", "3299", "1321",
+                                             "2713", "6111", "3241", "3213", "2349", "4225", "1327", "2341", "4331"};
 
     public static BigInteger generateLessThan(BigInteger x) {
         BigInteger tmp = x.divide(new BigInteger("3"));
@@ -27,10 +27,17 @@ public class Generator {
     public static BigInteger generatePrimeNumber(int bits) {
         BigInteger tmp = new BigInteger("2");
         tmp = tmp.pow(bits);
-        tmp = tmp.subtract(BigInteger.ONE);
+        tmp = tmp.add(new BigInteger(primeNumbers[random.nextInt(primeNumbers.length)]));
+
+        String s = "0";
+        for (int i = 0; i < bits/5; i++) {
+            s += '0';
+        }
+
+        s += '1';
 
         while (!tmp.isProbablePrime(20)) {
-            tmp = tmp.add(new BigInteger(primeNumbers[random.nextInt(primeNumbers.length)]));
+            tmp = tmp.add(new BigInteger(primeNumbers[random.nextInt(primeNumbers.length)]+s));
         }
 
         return tmp;

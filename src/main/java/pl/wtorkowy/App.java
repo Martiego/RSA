@@ -23,12 +23,17 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-//        launch();
-        BlindSignature blindSignature = new BlindSignature(new BigInteger("5"), new BigInteger("13"));
-        BigInteger blindMessage = blindSignature.blindMessage(new BigInteger("25"));
-        BigInteger cypherSign = blindSignature.cypherSign(blindMessage);
-        BigInteger blindSignatureXD = blindSignature.getBlindSignature(cypherSign);
-        BigInteger publicMessage = blindSignature.unblindSign(blindSignatureXD);
+        launch();
+//        System.out.println(Integer.toString(15));
+//        BigInteger a = new BigInteger("205");
+//        byte[] b = a.toByteArray();
+
+//        BlindSignature blindSignature = new BlindSignature(new BigInteger("5"), new BigInteger("13"));
+//        BigInteger blindMessage = blindSignature.blindMessage(new BigInteger("25"));
+//        BigInteger cypherSign = blindSignature.cypherSign(blindMessage);
+//        BigInteger blindSignatureXD = blindSignature.getBlindSignature(cypherSign);
+//        BigInteger publicMessage = blindSignature.unblindSign(blindSignatureXD);
+//        System.out.println(publicMessage);
 //        System.out.println(blindSignature.unblindSign(blindSignature.getBlindSignature(blindSignature.sign(blindSignature.blindMessage(new BigInteger("50"))))));
     }
 }
