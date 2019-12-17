@@ -14,7 +14,7 @@
          <font>
             <Font size="15.0" />
          </font></Label>
-      <Label alignment="CENTER" layoutX="428.0" layoutY="14.0" prefHeight="17.0" prefWidth="358.0" text="Szyfrowanie plików" textAlignment="CENTER" underline="true">
+      <Label alignment="CENTER" layoutX="428.0" layoutY="14.0" prefHeight="19.0" prefWidth="235.0" text="Podpisanie pliku" textAlignment="CENTER" underline="true">
          <font>
             <Font size="15.0" />
          </font>
@@ -22,9 +22,7 @@
       <Label alignment="CENTER" layoutX="14.0" layoutY="63.0" prefHeight="17.0" prefWidth="100.0" text="p" />
       <Label alignment="CENTER" layoutX="135.0" layoutY="93.0" prefHeight="17.0" prefWidth="58.0" text="e" />
       <Label alignment="CENTER" layoutX="15.0" layoutY="92.0" prefHeight="17.0" prefWidth="58.0" text="n" />
-      <Label alignment="CENTER" layoutX="431.0" layoutY="84.0" prefHeight="17.0" prefWidth="100.0" text="Klucz prywatny" />
-      <Label alignment="CENTER" layoutX="431.0" layoutY="284.0" prefHeight="17.0" prefWidth="100.0" text="m" />
-      <Label alignment="CENTER" layoutX="431.0" layoutY="257.0" prefHeight="17.0" prefWidth="100.0" text="n" />
+      <Label alignment="CENTER" layoutX="431.0" layoutY="84.0" prefHeight="17.0" prefWidth="41.0" text="p" />
       <TextField fx:id="p" layoutX="129.0" layoutY="58.0" prefHeight="27.0" prefWidth="41.0" />
       <TextArea fx:id="text" layoutX="14.0" layoutY="176.0" prefHeight="77.0" prefWidth="358.0" />
       <Label layoutX="13.0" layoutY="150.0" text="Tekst do zaszyfrowania" />
@@ -32,32 +30,37 @@
       <Label fx:id="cipherText" alignment="TOP_LEFT" layoutX="14.0" layoutY="284.0" onMouseClicked="#copy" prefHeight="47.0" prefWidth="358.0" text="Cipher Text" wrapText="true" />
       <Button fx:id="encrypt" layoutX="14.0" layoutY="341.0" mnemonicParsing="false" onAction="#encrypt" prefHeight="27.0" prefWidth="100.0" text="Zaszyfruj" />
       <Button fx:id="decrypt" layoutX="143.0" layoutY="341.0" mnemonicParsing="false" onAction="#decrypt" prefHeight="27.0" prefWidth="100.0" text="Odszyfruj" />
-      <Button fx:id="chooseFile" layoutX="427.0" layoutY="318.0" mnemonicParsing="false" onAction="#openFile" prefHeight="27.0" prefWidth="108.0" text="Wybierz plik" />
-      <Label fx:id="path" layoutX="561.0" layoutY="305.0" prefHeight="47.0" prefWidth="417.0" text="Ścieżka" wrapText="true" />
-      <Label layoutX="426.0" layoutY="368.0" text="Nazwa nowego pliku" />
-      <TextField fx:id="nameFile" layoutX="559.0" layoutY="363.0" prefHeight="27.0" prefWidth="112.0" />
-      <Button fx:id="encryptFile" layoutX="426.0" layoutY="406.0" mnemonicParsing="false" onAction="#encryptFile" prefHeight="27.0" prefWidth="100.0" text="Zaszyfruj plik" />
-      <Button layoutX="544.0" layoutY="406.0" mnemonicParsing="false" onAction="#decryptFile" prefHeight="27.0" prefWidth="100.0" text="Odszyfruj plik" />
+      <Button fx:id="chooseFile" layoutX="427.0" layoutY="215.0" mnemonicParsing="false" onAction="#openFile" prefHeight="27.0" prefWidth="108.0" text="Wybierz plik" />
+      <Label fx:id="path" layoutX="563.0" layoutY="205.0" prefHeight="47.0" prefWidth="417.0" text="Ścieżka" wrapText="true" />
+      <Label layoutX="425.0" layoutY="266.0" text="Nazwa nowego pliku" />
+      <TextField fx:id="nameFile" layoutX="553.0" layoutY="261.0" prefHeight="27.0" prefWidth="112.0" />
+      <Button layoutX="416.0" layoutY="308.0" mnemonicParsing="false" onAction="#blindFile" prefHeight="27.0" prefWidth="100.0" text="Zaciemnij plik" />
+      <Button layoutX="537.0" layoutY="308.0" mnemonicParsing="false" onAction="#signFile" prefHeight="27.0" prefWidth="100.0" text="Podpisz plik" />
       <ProgressBar fx:id="progressBar" layoutX="426.0" layoutY="453.0" prefWidth="200.0" progress="0.0" />
       <Label alignment="CENTER" layoutX="14.0" layoutY="123.0" prefHeight="17.0" prefWidth="100.0" text="Klucz publiczny" />
       <Label fx:id="publicKey" layoutX="129.0" layoutY="123.0" prefHeight="17.0" prefWidth="200.0" text="{Public Key}" />
-      <Label alignment="CENTER" layoutX="431.0" layoutY="168.0" prefHeight="17.0" prefWidth="100.0" text="Klucz publiczny" />
-      <Label fx:id="publicKeyFile" alignment="TOP_LEFT" layoutX="536.0" layoutY="168.0" onMouseClicked="#copy" prefHeight="77.0" prefWidth="446.0" text="{Public Key}" wrapText="true" />
       <Label layoutX="13.0" layoutY="383.0" text="Autorzy" underline="true" />
       <Label layoutX="13.0" layoutY="419.0" text="Kacper Świercz 224 443" />
       <Label layoutX="13.0" layoutY="402.0" text="Patryk Kolanek 224 333" />
       <Label layoutX="13.0" layoutY="436.0" text="Szymon Jacoń 224 306" />
-      <Label fx:id="privateKeyFile" alignment="TOP_LEFT" layoutX="536.0" layoutY="85.0" onMouseClicked="#copy" prefHeight="77.0" prefWidth="446.0" text="{Private Key}" wrapText="true" />
-      <Label layoutX="437.0" layoutY="50.0" text="Ilość liczb w kluczu" />
-      <TextField fx:id="times" layoutX="552.0" layoutY="46.0" prefHeight="25.0" prefWidth="100.0" />
-      <Button layoutX="671.0" layoutY="46.0" mnemonicParsing="false" onAction="#generate" text="Generuj klucze" />
-      <Label fx:id="nFile" layoutX="566.0" layoutY="257.0" onMouseClicked="#copy" prefHeight="17.0" prefWidth="411.0" text="{n}" />
-      <Label fx:id="mFile" layoutX="566.0" layoutY="284.0" onMouseClicked="#copy" prefHeight="17.0" prefWidth="411.0" text="{m}" />
+      <Label fx:id="pFile" alignment="TOP_LEFT" layoutX="466.0" layoutY="83.0" onMouseClicked="#copy" prefHeight="20.0" prefWidth="508.0" text="{p}" wrapText="true" />
+      <Label layoutX="437.0" layoutY="50.0" text="Ilość bitów" />
+      <TextField fx:id="times" layoutX="509.0" layoutY="45.0" prefHeight="25.0" prefWidth="100.0" />
+      <Button layoutX="626.0" layoutY="45.0" mnemonicParsing="false" onAction="#generate" text="Generuj klucze" />
       <Label alignment="CENTER" layoutX="170.0" layoutY="63.0" prefHeight="17.0" prefWidth="100.0" text="q" />
       <TextField fx:id="q" layoutX="273.0" layoutY="58.0" prefHeight="27.0" prefWidth="41.0" />
       <Label alignment="CENTER" layoutX="264.0" layoutY="93.0" prefHeight="17.0" prefWidth="58.0" text="d" />
       <Label fx:id="n" alignment="CENTER" layoutX="73.0" layoutY="93.0" prefHeight="17.0" prefWidth="58.0" text="{n}" />
       <Label fx:id="e" alignment="CENTER" layoutX="200.0" layoutY="93.0" prefHeight="17.0" prefWidth="58.0" text="{e}" />
       <Label fx:id="d" alignment="CENTER" layoutX="329.0" layoutY="93.0" prefHeight="17.0" prefWidth="58.0" text="{d}" />
+      <Label alignment="CENTER" layoutX="431.0" layoutY="109.0" prefHeight="17.0" prefWidth="41.0" text="q" />
+      <Label fx:id="qFile" alignment="TOP_LEFT" layoutX="466.0" layoutY="108.0" onMouseClicked="#copy" prefHeight="20.0" prefWidth="508.0" text="{q}" wrapText="true" />
+      <Label alignment="CENTER" layoutX="431.0" layoutY="132.0" prefHeight="17.0" prefWidth="41.0" text="e" />
+      <Label fx:id="eFile" alignment="TOP_LEFT" layoutX="466.0" layoutY="131.0" onMouseClicked="#copy" prefHeight="20.0" prefWidth="508.0" text="{e}" wrapText="true" />
+      <Label alignment="CENTER" layoutX="431.0" layoutY="159.0" prefHeight="17.0" prefWidth="41.0" text="d" />
+      <Label fx:id="dFile" alignment="TOP_LEFT" layoutX="466.0" layoutY="158.0" onMouseClicked="#copy" prefHeight="20.0" prefWidth="508.0" text="{d}" wrapText="true" />
+      <Label alignment="CENTER" layoutX="431.0" layoutY="183.0" prefHeight="17.0" prefWidth="41.0" text="k" />
+      <Label fx:id="kFile" alignment="TOP_LEFT" layoutX="466.0" layoutY="182.0" onMouseClicked="#copy" prefHeight="20.0" prefWidth="508.0" text="{k}" wrapText="true" />
+      <Button layoutX="654.0" layoutY="308.0" mnemonicParsing="false" onAction="#checkSign" prefHeight="27.0" prefWidth="108.0" text="Sprawdź podpis" />
    </children>
 </Pane>
