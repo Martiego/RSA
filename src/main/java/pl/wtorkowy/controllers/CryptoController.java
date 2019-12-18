@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.util.Scanner;
 
 public class CryptoController {
+
     @FXML
     private Label n;
     @FXML
@@ -193,6 +194,7 @@ public class CryptoController {
                 String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
 
                 File newFile = new File(name);
+                FileWriter test = new FileWriter(name + "TEST");
 
                 Scanner in = new Scanner(file);
 
@@ -203,11 +205,13 @@ public class CryptoController {
                 while(in.hasNext()) {
                     progressBar.setProgress(progress += tmpProgress);
                     bigInByte = blindSignature.unblindSign(new BigInteger(in.next())).toByteArray();
+//                    bigInByte = ToTab.removeZeroo(bigInByte);
                     for (byte c: bigInByte
                          ) {
-                        System.out.println(c);
+//                        test.write(writeunsigned(c) + "Len: " + bigInByte.length + "\n");
+                        fileOutputStream.write(unsigned(c));
                     }
-                    fileOutputStream.write(bigInByte);
+//                    fileOutputStream.write(bigInByte);
                 }
 
                 fileOutputStream.close();
@@ -217,6 +221,10 @@ public class CryptoController {
                 ex.printStackTrace();
             }
         }
+    }
+
+    private int unsigned(byte b) {
+        return b & 0xFF;
     }
 
     public class BlindFile implements Runnable {
@@ -238,6 +246,8 @@ public class CryptoController {
                 String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
 
                 FileWriter newFile = new FileWriter(name);
+                FileWriter test = new FileWriter(name + "TEST");
+
 
                 long fileLen = file.length();
                 long rest = fileLen%tmp;
@@ -250,7 +260,7 @@ public class CryptoController {
                     progressBar.setProgress(progress += tmpProgress);
                     for (int j = 0; j < tmp; j++) {
                         tabWithBytes[j] = fileInputStream.read();
-                        System.out.println(tabWithBytes[j]);
+                        test.write(tabWithBytes[j] + "\n");
                     }
                     newFile.write(blindSignature.blindMessage(ToTab.generateBigInteger(tabWithBytes)).toString() + "\n");
                 }

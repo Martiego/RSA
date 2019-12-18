@@ -154,5 +154,25 @@ public class ToTab {
         return result;
     }
 
+    public static byte[] removeZero(byte[] b) {
+        int tmp = 0;
+        for (byte c: b) {
+            if(c == 0)
+                tmp++;
+        }
+
+        byte[] tmpByte = new byte[b.length-tmp];
+
+        int j = 0;
+
+        for (int i = 0; i < b.length; i++) {
+            if(b[i] != 0) {
+                tmpByte[j] = b[i];
+                j++;
+            }
+
+        }
+        return tmpByte;
+    }
 
 }
