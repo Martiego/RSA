@@ -200,21 +200,32 @@ public class CryptoController {
 
                 FileOutputStream fileOutputStream = new FileOutputStream(newFile);
                 byte[] bigInByte = new byte[tmp];
+                byte[] tmpByte = new byte[tmp*8];
+                int tmpi = 0;
+
+                BigInteger i = new BigInteger("1");
 
 
                 while(in.hasNext()) {
                     progressBar.setProgress(progress += tmpProgress);
-                    bigInByte = blindSignature.unblindSign(new BigInteger(in.next())).toByteArray();
-//                    bigInByte = ToTab.removeZeroo(bigInByte);
-                    for (byte c: bigInByte
-                         ) {
-//                        test.write(writeunsigned(c) + "Len: " + bigInByte.length + "\n");
-                        fileOutputStream.write(unsigned(c));
+                    tmpByte = ToTab.getByteTabBigInteger(blindSignature.unblindSign(new BigInteger(in.next())), tmp);
+
+                    for (int j = 0; j < tmpByte.length/8; j++) {
+                        tmpi = ToTab.toInt(ToTab.cutTab(tmpByte, j*8, 8));
+                        fileOutputStream.write(tmpi);
+                        test.write(tmpi + "\n");
                     }
+
+//                    for (byte c: bigInByte
+//                         ) {
+//                        test.write(unsigned(c) + " TMP: " + tmp + " Len: " + bigInByte.length + "\n");
+//                        fileOutputStream.write(unsigned(c));
+//                    }
 //                    fileOutputStream.write(bigInByte);
                 }
 
                 fileOutputStream.close();
+                test.close();
                 progress = 0;
 
             } catch(IOException ex) {
@@ -276,6 +287,7 @@ public class CryptoController {
                 }
 
                 newFile.close();
+                test.close();
                 fileInputStream.close();
 
                 progress = 0;
@@ -292,14 +304,6 @@ public class CryptoController {
         public void run() {
             try {
                 progressBar.setProgress(progress);
-//                FileInputStream fileInputStream = new FileInputStream(file);
-
-                int tmp = blindSignature.getN().bitLength();
-
-                while (tmp%8 != 0)
-                    tmp--;
-
-                tmp /= 8;
 
                 String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
 
@@ -307,34 +311,13 @@ public class CryptoController {
 
                 Scanner in = new Scanner(file);
 
-//                FileOutputStream fileOutputStream = new FileOutputStream(newFile);
-//                byte[] bigInByte = new byte[tmp];
-
-//                System.out.println(tmpProgress);
-
                 while(in.hasNext()) {
                     progressBar.setProgress(progress += tmpProgress);
                     newFile.write(blindSignature.getBlindSignature(blindSignature.cypherSign(new BigInteger(in.next()))).toString() + "\n");
-
                 }
 
                 newFile.close();
                 progress = 0;
-
-//                long fileLen = file.length();
-//
-//                tmpProgress = 1.0/(fileLen/tmp);
-//
-//                int[] tabWithBytes = new int[tmp];
-//
-//                for (int i = 0; i < fileLen/tmp; i++) {
-//                    progressBar.setProgress(progress += tmpProgress);
-//                    for (int j = 0; j < tmp; j++) {
-//                        tabWithBytes[j] = fileInputStream.read();
-//                    }
-//                    newFile.write(blindSignature.blindMessage(ToTab.generateBigInteger(tabWithBytes)).toString());
-//                }
-
 
             } catch (IOException ex) {
                 ex.printStackTrace();

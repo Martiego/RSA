@@ -175,4 +175,25 @@ public class ToTab {
         return tmpByte;
     }
 
+    public static byte[] getByteTabBigInteger(BigInteger m, int bytes) {
+        byte[] result = new byte[bytes*8];
+        bytes = bytes*8 - 1;
+
+        BigInteger tmpB;
+
+        for (int i = 0; i < result.length; i++) {
+            tmpB = BigInteger.TWO.pow(bytes);
+            if(m.compareTo(tmpB) < 0) {
+                result[i] = 0;
+            } else {
+                result[i] = 1;
+                m = m.subtract(tmpB);
+            }
+
+            bytes--;
+        }
+
+        return result;
+    }
+
 }

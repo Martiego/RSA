@@ -27,4 +27,14 @@ public class AppTest {
         Assertions.assertEquals(ToTab.generateBigInteger(new int[] {1, 2, 3}).toString(), "66051");
 
     }
+
+    @Test
+    public void changeToBits() {
+        BigInteger m = new BigInteger("66051");
+        int exp = 3;
+
+        byte[] tab = ToTab.getByteTabBigInteger(m, exp);
+
+        Assertions.assertArrayEquals(new byte[] {0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1}, tab);
+    }
 }
