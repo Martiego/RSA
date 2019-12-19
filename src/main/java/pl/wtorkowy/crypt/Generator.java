@@ -29,12 +29,10 @@ public class Generator {
         tmp = tmp.pow(bits);
         tmp = tmp.add(new BigInteger(primeNumbers[random.nextInt(primeNumbers.length)]));
 
-        String s = "0";
-        for (int i = 0; i < bits/5; i++) {
-            s += '0';
-        }
+        StringBuilder s = new StringBuilder("0");
+        s.append("0".repeat(Math.max(0, bits / 6)));
 
-        s += '1';
+        s.append('1');
 
         while (!tmp.isProbablePrime(20)) {
             tmp = tmp.add(new BigInteger(primeNumbers[random.nextInt(primeNumbers.length)]+s));

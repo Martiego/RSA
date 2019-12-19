@@ -21,6 +21,9 @@ import java.util.Scanner;
 public class CryptoController {
 
     @FXML
+    private Label signLabel;
+
+    @FXML
     private Label n;
     @FXML
     private Label d;
@@ -59,6 +62,10 @@ public class CryptoController {
     private Label kFile;
     @FXML
     private Label nFile;
+    @FXML
+    private Label pathSign;
+    
+    private String signName;
 
     @FXML
     private ProgressBar progressBar;
@@ -71,6 +78,8 @@ public class CryptoController {
 
     @FXML
     private File file;
+    @FXML
+    private File fileSign;
     @FXML
     private Stage stage;
 
@@ -86,6 +95,18 @@ public class CryptoController {
             path.setText(file.getAbsolutePath());
         }
     }
+    @FXML
+    public void openSign() {
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.setTitle("Otworz Plik do zaszyfrowania");
+
+        fileSign = fileChooser.showOpenDialog(stage);
+
+        if (file != null) {
+            pathSign.setText(fileSign.getAbsolutePath());
+        }
+    }
 
     @FXML
     public void encrypt() {
@@ -96,8 +117,6 @@ public class CryptoController {
             n.setText(rsa.getN().toString());
             e.setText(rsa.getE().toString());
             d.setText(rsa.getD().toString());
-//            int times = rsa.getN().toString().length()/3;
-//            int len = text.getText().length();
             int[] tmpInt = ToTab.toIntTab(text.getText().toCharArray());
             String s = "";
             for (int i : tmpInt) {
@@ -185,6 +204,7 @@ public class CryptoController {
                 progressBar.setProgress(progress);
 
                 int tmp = blindSignature.getN().bitLength();
+                tmp--;
 
                 while (tmp%8 != 0)
                     tmp--;
@@ -194,7 +214,7 @@ public class CryptoController {
                 String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
 
                 File newFile = new File(name);
-                FileWriter test = new FileWriter(name + "TEST");
+//                FileWriter test = new FileWriter(name + "TEST");
 
                 Scanner in = new Scanner(file);
 
@@ -203,7 +223,7 @@ public class CryptoController {
                 byte[] tmpByte = new byte[tmp*8];
                 int tmpi = 0;
 
-                BigInteger i = new BigInteger("1");
+                BigInteger k = new BigInteger("1");
 
 
                 while(in.hasNext()) {
@@ -213,7 +233,7 @@ public class CryptoController {
                     for (int j = 0; j < tmpByte.length/8; j++) {
                         tmpi = ToTab.toInt(ToTab.cutTab(tmpByte, j*8, 8));
                         fileOutputStream.write(tmpi);
-                        test.write(tmpi + "\n");
+//                        test.write(tmpi + "\n");
                     }
 
 //                    for (byte c: bigInByte
@@ -223,9 +243,13 @@ public class CryptoController {
 //                    }
 //                    fileOutputStream.write(bigInByte);
                 }
+                
+//                compareFile(name);
+
+
 
                 fileOutputStream.close();
-                test.close();
+//                test.close();
                 progress = 0;
 
             } catch(IOException ex) {
@@ -234,9 +258,79 @@ public class CryptoController {
         }
     }
 
+    public void check() {
+//        if(file != null) {
+//            Thread thread = new Thread(new Check(file));
+//            thread.start();
+//        }
+
+        try {
+            FileInputStream file = new FileInputStream(new File(this.file.getAbsolutePath()));
+            progressBar.setProgress(progress);
+            //tmpProgress = 1.0/f.length();
+
+            FileInputStream signn = new FileInputStream(new File(this.fileSign.getAbsolutePath()));
+
+            signLabel.setText("Sign is correct !");
+
+            for (int i = 0; i < this.file.length(); i++) {
+                progressBar.setProgress(progress+=tmpProgress);
+                if(file.read() != signn.read()) {
+                    signLabel.setText("Sign doesn't match !");
+                    break;
+                }
+            }
+
+            progress = 0;
+
+            file.close();
+            signn.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     private int unsigned(byte b) {
         return b & 0xFF;
     }
+
+//    public class Check implements Runnable {
+//
+//        private File file;
+//
+//        public Check(File file) {
+//            this.file = file;
+//        }
+//
+//        @Override
+//        public void run() {
+////            try {
+////                File f = new File(signName);
+////                FileInputStream file = new FileInputStream(f);
+////                progressBar.setProgress(progress);
+////                tmpProgress = 1.0/f.length();
+////
+////                FileInputStream signn = new FileInputStream(new File(this.file.getAbsolutePath()));
+////
+////                signLabel.setText("Sign is correct !");
+////
+////                for (int i = 0; i < f.length(); i++) {
+////                    progressBar.setProgress(progress+=tmpProgress);
+////                    if(file.read() != signn.read()) {
+////                        signLabel.setText("Sign doesn't match !");
+////                        break;
+////                    }
+////                }
+////
+////                progress = 0;
+////
+////                file.close();
+////                signn.close();
+////            } catch (Exception ex) {
+////                ex.printStackTrace();
+////            }
+//        }
+//    }
 
     public class BlindFile implements Runnable {
 
@@ -246,8 +340,10 @@ public class CryptoController {
             try {
                 progressBar.setProgress(progress);
                 FileInputStream fileInputStream = new FileInputStream(file);
+                signName = file.getAbsolutePath();
 
                 int tmp = blindSignature.getN().bitLength();
+                tmp--;
 
                 while (tmp%8 != 0)
                     tmp--;
@@ -257,7 +353,7 @@ public class CryptoController {
                 String name = ToTab.replace(file.getAbsolutePath(), File.separatorChar, nameFile.getText());
 
                 FileWriter newFile = new FileWriter(name);
-                FileWriter test = new FileWriter(name + "TEST");
+//                FileWriter test = new FileWriter(name + "TEST");
 
 
                 long fileLen = file.length();
@@ -271,7 +367,7 @@ public class CryptoController {
                     progressBar.setProgress(progress += tmpProgress);
                     for (int j = 0; j < tmp; j++) {
                         tabWithBytes[j] = fileInputStream.read();
-                        test.write(tabWithBytes[j] + "\n");
+//                        test.write(tabWithBytes[j] + "\n");
                     }
                     newFile.write(blindSignature.blindMessage(ToTab.generateBigInteger(tabWithBytes)).toString() + "\n");
                 }
@@ -287,7 +383,7 @@ public class CryptoController {
                 }
 
                 newFile.close();
-                test.close();
+//                test.close();
                 fileInputStream.close();
 
                 progress = 0;
@@ -324,5 +420,29 @@ public class CryptoController {
             }
         }
     }
+
+//    public void compareFile(String name) {
+//        try {
+//            File f = new File(signName);
+//            FileInputStream file = new FileInputStream(f);
+//            FileInputStream signn = new FileInputStream(new File(name));
+//
+//            sign.setText("Sign is correct !");
+//
+//            for (int i = 0; i < f.length(); i++) {
+//                if(file.read() != signn.read()) {
+//                    sign.setText("Sign doesn't match !");
+//                    break;
+//                }
+//            }
+//
+//            file.close();
+//            signn.close();
+//
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//
+//    }
 }
 

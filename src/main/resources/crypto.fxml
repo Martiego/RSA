@@ -32,10 +32,10 @@
       <Button fx:id="decrypt" layoutX="143.0" layoutY="341.0" mnemonicParsing="false" onAction="#decrypt" prefHeight="27.0" prefWidth="100.0" text="Odszyfruj" />
       <Button fx:id="chooseFile" layoutX="427.0" layoutY="237.0" mnemonicParsing="false" onAction="#openFile" prefHeight="27.0" prefWidth="108.0" text="Wybierz plik" />
       <Label fx:id="path" layoutX="553.0" layoutY="230.0" prefHeight="47.0" prefWidth="417.0" text="Ścieżka" wrapText="true" />
-      <Label layoutX="426.0" layoutY="299.0" text="Nazwa nowego pliku" />
-      <TextField fx:id="nameFile" layoutX="553.0" layoutY="294.0" prefHeight="27.0" prefWidth="112.0" />
-      <Button layoutX="415.0" layoutY="341.0" mnemonicParsing="false" onAction="#blindFile" prefHeight="27.0" prefWidth="100.0" text="Zaciemnij plik" />
-      <Button layoutX="535.0" layoutY="341.0" mnemonicParsing="false" onAction="#signFile" prefHeight="27.0" prefWidth="100.0" text="Podpisz plik" />
+      <Label layoutX="426.0" layoutY="333.0" text="Nazwa nowego pliku" />
+      <TextField fx:id="nameFile" layoutX="553.0" layoutY="328.0" prefHeight="27.0" prefWidth="112.0" />
+      <Button layoutX="415.0" layoutY="370.0" mnemonicParsing="false" onAction="#blindFile" prefHeight="27.0" prefWidth="100.0" text="Zaciemnij plik" />
+      <Button layoutX="535.0" layoutY="370.0" mnemonicParsing="false" onAction="#signFile" prefHeight="27.0" prefWidth="100.0" text="Podpisz plik" />
       <ProgressBar fx:id="progressBar" layoutX="426.0" layoutY="453.0" prefWidth="200.0" progress="0.0" />
       <Label alignment="CENTER" layoutX="14.0" layoutY="123.0" prefHeight="17.0" prefWidth="100.0" text="Klucz publiczny" />
       <Label fx:id="publicKey" layoutX="129.0" layoutY="123.0" prefHeight="17.0" prefWidth="200.0" text="{Public Key}" />
@@ -61,8 +61,12 @@
       <Label fx:id="dFile" alignment="TOP_LEFT" layoutX="466.0" layoutY="158.0" onMouseClicked="#copy" prefHeight="20.0" prefWidth="508.0" text="{d}" wrapText="true" />
       <Label alignment="CENTER" layoutX="431.0" layoutY="183.0" prefHeight="17.0" prefWidth="41.0" text="k" />
       <Label fx:id="kFile" alignment="TOP_LEFT" layoutX="466.0" layoutY="182.0" onMouseClicked="#copy" prefHeight="20.0" prefWidth="508.0" text="{k}" wrapText="true" />
-      <Button layoutX="653.0" layoutY="341.0" mnemonicParsing="false" onAction="#checkSign" prefHeight="27.0" prefWidth="108.0" text="Sprawdź podpis" />
+      <Button layoutX="650.0" layoutY="370.0" mnemonicParsing="false" onAction="#checkSign" prefHeight="27.0" prefWidth="112.0" text="Odciemnij podpis" />
       <Label alignment="CENTER" layoutX="431.0" layoutY="206.0" prefHeight="17.0" prefWidth="41.0" text="n" />
       <Label fx:id="nFile" alignment="TOP_LEFT" layoutX="466.0" layoutY="205.0" onMouseClicked="#copy" prefHeight="20.0" prefWidth="508.0" text="{n}" wrapText="true" />
+      <Label fx:id="signLabel" layoutX="418.0" layoutY="419.0" prefHeight="17.0" prefWidth="417.0" text="{Podpis cyfrowy}" />
+      <Button layoutX="780.0" layoutY="371.0" mnemonicParsing="false" onAction="#check" prefHeight="25.0" prefWidth="110.0" text="Sprawdź podpis" />
+      <Button fx:id="chooseFile1" layoutX="427.0" layoutY="284.0" mnemonicParsing="false" onAction="#openSign" prefHeight="27.0" prefWidth="108.0" text="Wybierz podpis" />
+      <Label fx:id="pathSign" layoutX="553.0" layoutY="274.0" prefHeight="47.0" prefWidth="417.0" text="Ścieżka" wrapText="true" />
    </children>
 </Pane>
